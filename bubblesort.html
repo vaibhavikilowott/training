@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bubble Sort</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('back.jpg'); /* Change 'background.jpg' to your background image path */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+    
+        h1 {
+            text-align: center;
+            color: #3498db;
+        }
+    
+        form {
+            background-color: rgba(255, 255, 255, 0.9);
+            width: 400px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 1, 0.2);
+            text-align: center;
+            margin: 0 auto;
+        }
+    
+        label {
+            font-weight: bold;
+        }
+    
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+    
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.2s;
+        }
+    
+        input[type="submit"]:hover {
+            background-color: green;
+        }
+    
+        .result {
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 1, 0.2);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bubble Sort in JavaScript</h1>
+
+    <form id="sortForm">
+        <br><label for="arrayLength">Enter the length of the array:</label><br>
+        <input type="number" id="arrayLength" required>
+        <br>
+        <label for="inputArray">Enter comma-separated numbers:</label><br>
+        <input type="text" id="inputArray" required>
+        <br>
+        <input type="submit" value="Sort">
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        function bubbleSort(arr) {
+            var n = arr.length;
+            var swapped;
+            do {
+                swapped = false;
+                for (var i = 0; i < n - 1; i++) {
+                    if (arr[i] > arr[i + 1]) {
+                        var temp = arr[i];
+                        arr[i] = arr[i + 1];
+                        arr[i + 1] = temp;
+                        swapped = true;
+                    }
+                }
+            } while (swapped);
+
+            return arr;
+        }
+
+        document.getElementById("sortForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            var arrayLength = parseInt(document.getElementById("arrayLength").value);
+            var inputArray = document.getElementById("inputArray").value;
+
+            var inputArraySplitted = inputArray.split(",");
+            var validInput = true;
+
+            inputArraySplitted = inputArraySplitted.map(function (item) {
+                return item.trim(); // Remove leading/trailing whitespace
+            });
+
+            for (var i = 0; i < inputArraySplitted.length; i++) {
+                if (!/^\d+$/.test(inputArraySplitted[i])) {
+                    validInput = false;
+                    break;
+                }
+            }
+
+            var outputDiv = document.getElementById("output");
+            outputDiv.innerHTML = "";
+
+            if (validInput) {
+                if (inputArraySplitted.length < arrayLength) {
+                    var missingElements = arrayLength - inputArraySplitted.length;
+                    outputDiv.innerHTML = "Enter at least " + missingElements + " more element" + (missingElements > 1 ? "s" : "") + ".";
+                } else if (inputArraySplitted.length > arrayLength) {
+                    outputDiv.innerHTML = "The array size does not match the number of elements entered.";
+                } else {
+                    var sortedArray = bubbleSort(inputArraySplitted);
+                    outputDiv.innerHTML = "<h2>Sorted array:</h2>" + sortedArray.join(", ");
+                }
+            } else {
+                outputDiv.innerHTML = "<p style='color: red;'>Please enter valid integer values.</p>";
+            }
+        });
+    </script>
+</body>
+<p>BACK TO <a href="JavaScript.php">JS PAGE</a></p>
+</html>
